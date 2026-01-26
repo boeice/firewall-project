@@ -6,16 +6,25 @@ using namespace std;
 
 class Packets {
 private:
-	string ip;
+	string ip_source, ip_destination;
 	string protocol;
 	int port;
 	random_device rd;
 	mt19937 gen;
 public:
 	Packets () : gen(rd()) {};
+	string get_ip_source() {
+		ip_source = Generate_IP();
+		return ip_source;
+	}
+	string get_ip_destination() {
+		ip_destination = Generate_IP();
+		return ip_destination;
+	}
 	string Generate_IP() {	
 		uniform_int_distribution<> dist(1, 254);
 		int RandomNumber = dist(gen);
+		string ip;
 		ip = "192.168.1." + to_string(RandomNumber);
 		return ip;
 	}
