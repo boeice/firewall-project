@@ -4,7 +4,7 @@
 #include <random>
 using namespace std;
 
-Packets::Packets() : gen(rd()) {}
+Packets::Packets() : gen(rd()), port(0) {}
 
 string Packets::get_ip_source() {
     ip_source = Generate_IP();

@@ -1,0 +1,22 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.sln.docstates
+
+# Build
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.idb
+*.ipdb
+*.log
+x64/
+Debug/
+Release/
+
+# Other
+*.tmp
+*.slnx
+FIREWALL/
