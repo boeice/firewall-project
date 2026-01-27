@@ -4,7 +4,14 @@
 #include <random>
 using namespace std;
 
-Packets::Packets() : gen(rd()), port(0) {}
+Packets::Packets() : gen(rd()) {}
+
+string Packets::Generate_IP() {
+    uniform_int_distribution<> dist(1, 254);
+    int RandomNumber = dist(gen);
+    string ip = "192.168.1." + to_string(RandomNumber);
+    return ip;
+}
 
 string Packets::get_ip_source() {
     ip_source = Generate_IP();
@@ -16,12 +23,6 @@ string Packets::get_ip_destination() {
     return ip_destination;
 }
 
-string Packets::Generate_IP() {
-    uniform_int_distribution<> dist(1, 254);
-    int RandomNumber = dist(gen);
-    string ip = "192.168.1." + to_string(RandomNumber);
-    return ip;
-}
 
 int Packets::Generate_PORT() {
     uniform_int_distribution<> dist(1, 9999);
