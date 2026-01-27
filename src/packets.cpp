@@ -4,7 +4,7 @@
 #include <random>
 using namespace std;
 
-Packets::Packets() : gen(rd()) {}
+Packets::Packets() : gen(rd()), port(0) {}
 
 string Packets::Generate_IP() {
     uniform_int_distribution<> dist(1, 254);
