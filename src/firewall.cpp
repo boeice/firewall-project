@@ -1,5 +1,5 @@
 #include "firewall.h"
-#include "packets.cpp" // i add it currently
+#include "packets.h" // i add it currently
 #include <iostream>
 #include <string>
 #include <map>
