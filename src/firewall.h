@@ -1,4 +1,4 @@
-#pragma once
+#include "packets.h"
 #include <string>
 #include <map>
 #include <vector>
@@ -10,10 +10,10 @@ private:
 	map<int, string> port_rules;
 	map<string, string> protocol_rules;
 	vector<Packets> packetsList;
-	vector<string> result; // action and reason
-	//pair<string, string> checkResult;
+	vector<string> result;
 public:
 	Firewall();
-	void CHECK_PACKETS();
-	void PACKETS_LIST();
+	void PACKETS_LIST(Packets& p);
+	void CHECK_PACKETS(Packets& p);
+	void PRINT_PACKETS();
 };

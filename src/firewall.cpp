@@ -1,5 +1,5 @@
+#include "packets.h" 
 #include "firewall.h"
-#include "packets.h" // i add it currently
 #include <iostream>
 #include <string>
 #include <map>
@@ -31,35 +31,40 @@ Firewall::Firewall() {
 	 {"SMB", "REJECT"},
 	};
 }
-void Firewall::PACKETS_LIST() {
-	Packets p;
+void Firewall::PACKETS_LIST(Packets& p) {
 	packetsList.push_back(p);
 }
-void Firewall::CHECK_PACKETS() {
-	//pair<string, string> checkResult;
+void Firewall::CHECK_PACKETS(Packets& p) {
 	for (int i = 0; i < packetsList.size(); i++)
 	{
 		bool found = false;
 		if (ip_rules.find(packetsList[i].get_ip_source()) != ip_rules.end()) {
 			result.push_back(ip_rules[packetsList[i].get_ip_source()]);
 			found = true;
-			break;
 		}
 		else if (ip_rules.find(packetsList[i].get_ip_destination()) != ip_rules.end()) {
 			result.push_back(ip_rules[packetsList[i].get_ip_destination()]);
 			found = true;
-			break;
 		}
-		else if (port_rules.find(packetsList[i].Generate_PORT()) != port_rules.end()) {
-			result.push_back(port_rules[packetsList[i].Generate_PORT()]);
+		else if (port_rules.find(packetsList[i].Get_PORT()) != port_rules.end()) {
+			result.push_back(port_rules[packetsList[i].Get_PORT()]);
 			found = true;
-			break;
 		}
-		else if (protocol_rules.find(packetsList[i].Generate_PROTOCOL()) != protocol_rules.end()) {
-			result.push_back(protocol_rules[packetsList[i].Generate_PROTOCOL()]);
+		else if (protocol_rules.find(packetsList[i].Get_PROTOCOL()) != protocol_rules.end()) {
+			result.push_back(protocol_rules[packetsList[i].Get_PROTOCOL()]);
 			found = true;
-			break;
 		}
 		if (!found) result.push_back("ALLOW");
 	}
 }
+	void Firewall::PRINT_PACKETS() {
+		for (int i = 0; i < packetsList.size(); i++) {
+			cout << "Packet " << i + 1 << ": "
+				<< packetsList[i].get_ip_source() << " -> "
+				<< packetsList[i].get_ip_destination()
+				<< " | Port: " << packetsList[i].Get_PORT()
+				<< " | Protocol: " << packetsList[i].Get_PROTOCOL()
+				<< " | Action: " << result[i]
+				<< "\n";
+		}
+	}
