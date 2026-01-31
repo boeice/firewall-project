@@ -1,8 +1,11 @@
 #include "firewall.h"
+#include "packets.cpp" // i add it currently
 #include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 using namespace std;
+
 Firewall::Firewall() {
 	ip_rules = {
 	 {"192.168.1.1", "LOG"},
@@ -28,6 +31,35 @@ Firewall::Firewall() {
 	 {"SMB", "REJECT"},
 	};
 }
-string Firewall::BLOCKLIST() {
-
+void Firewall::PACKETS_LIST() {
+	Packets p;
+	packetsList.push_back(p);
+}
+void Firewall::CHECK_PACKETS() {
+	//pair<string, string> checkResult;
+	for (int i = 0; i < packetsList.size(); i++)
+	{
+		bool found = false;
+		if (ip_rules.find(packetsList[i].get_ip_source()) != ip_rules.end()) {
+			result.push_back(ip_rules[packetsList[i].get_ip_source()]);
+			found = true;
+			break;
+		}
+		else if (ip_rules.find(packetsList[i].get_ip_destination()) != ip_rules.end()) {
+			result.push_back(ip_rules[packetsList[i].get_ip_destination()]);
+			found = true;
+			break;
+		}
+		else if (port_rules.find(packetsList[i].Generate_PORT()) != port_rules.end()) {
+			result.push_back(port_rules[packetsList[i].Generate_PORT()]);
+			found = true;
+			break;
+		}
+		else if (protocol_rules.find(packetsList[i].Generate_PROTOCOL()) != protocol_rules.end()) {
+			result.push_back(protocol_rules[packetsList[i].Generate_PROTOCOL()]);
+			found = true;
+			break;
+		}
+		if (!found) result.push_back("ALLOW");
+	}
 }
