@@ -4,7 +4,9 @@
 #include <random>
 using namespace std;
 
-Packets::Packets() : gen(rd()), port(0) {}
+random_device Packets::rd;
+mt19937 Packets::gen(Packets::rd());
+Packets::Packets() : port(0) {}
 
 string Packets::Generate_IP() {
     uniform_int_distribution<> dist(1, 254);
@@ -13,25 +15,33 @@ string Packets::Generate_IP() {
     return ip;
 }
 
-string Packets::get_ip_source() {
+void Packets::generate_ip_source() {
     ip_source = Generate_IP();
+}
+
+string Packets::get_ip_source(){
     return ip_source;
 }
 
-string Packets::get_ip_destination() {
+void Packets::generate_ip_destination() {
     ip_destination = Generate_IP();
+}
+string Packets::get_ip_destination() {
     return ip_destination;
 }
 
 
-int Packets::Generate_PORT() {
+void Packets::Generate_PORT() {
     uniform_int_distribution<> dist(1, 9999);
     int RandomNumber = dist(gen);
     port = RandomNumber;
+}
+
+int Packets::Get_PORT() {
     return port;
 }
 
-string Packets::Generate_PROTOCOL() {
+void Packets::Generate_PROTOCOL() {
     uniform_int_distribution<> dist(1, 7);
     int RandomNumber = dist(gen);
     if (RandomNumber == 1) { protocol = "HTTP"; port = 80; }
@@ -42,5 +52,8 @@ string Packets::Generate_PROTOCOL() {
     else if (RandomNumber == 6) { protocol = "SMTP"; port = 25; }
     else if (RandomNumber == 7) { protocol = "DNS"; port = 53; }
     else { protocol = "ICMP"; port = 0; }
+}
+
+string Packets::Get_PROTOCOL() {
     return protocol;
 }
